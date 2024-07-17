@@ -1,0 +1,759 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SpotifyExplode</name>
+    </assembly>
+    <members>
+        <member name="P:SpotifyExplode.Albums.Album.ExternalIds">
+            <summary>
+            Known external IDs for the track.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Albums.Album.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:SpotifyExplode.Albums.AlbumClient">
+            <summary>
+            Operations related to Spotify albums.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Albums.AlbumClient" />.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumClient.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Operations related to Spotify albums.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Albums.AlbumClient" />.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumClient.GetAsync(SpotifyExplode.Albums.AlbumId,System.Threading.CancellationToken)">
+            <summary>
+            Gets the metadata associated with the specified album.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumClient.GetTracksAsync(SpotifyExplode.Albums.AlbumId,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets the metadata associated with the tracks in a specified album.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumClient.GetAllTracksAsync(SpotifyExplode.Albums.AlbumId,System.Threading.CancellationToken)">
+            <summary>
+            Gets the metadata associated with the tracks in a specified album.
+            </summary>
+        </member>
+        <member name="T:SpotifyExplode.Albums.AlbumId">
+            <summary>
+            Represents a syntactically valid Spotify album ID.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.Albums.AlbumId.Value">
+            <summary>
+            Raw ID value.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumId.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumId.TryParse(System.String)">
+            <summary>
+            Attempts to parse the specified string as a track ID or URL.
+            Returns null in case of failure.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumId.Parse(System.String)">
+            <summary>
+            Parses the specified string as a Spotify track ID or URL.
+            Throws an exception in case of failure.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumId.op_Implicit(System.String)~SpotifyExplode.Albums.AlbumId">
+            <summary>
+            Converts string to ID.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumId.op_Implicit(SpotifyExplode.Albums.AlbumId)~System.String">
+            <summary>
+            Converts ID to string.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumId.Equals(SpotifyExplode.Albums.AlbumId)">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumId.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumId.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumId.op_Equality(SpotifyExplode.Albums.AlbumId,SpotifyExplode.Albums.AlbumId)">
+            <summary>
+            Equality check.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Albums.AlbumId.op_Inequality(SpotifyExplode.Albums.AlbumId,SpotifyExplode.Albums.AlbumId)">
+            <summary>
+            Equality check.
+            </summary>
+        </member>
+        <member name="T:SpotifyExplode.Albums.AlbumType">
+            <summary>
+            Spotify's album types
+            </summary>
+        </member>
+        <member name="F:SpotifyExplode.Albums.AlbumType.Album">
+            <summary>
+            Album
+            </summary>
+        </member>
+        <member name="F:SpotifyExplode.Albums.AlbumType.Single">
+            <summary>
+            Single
+            </summary>
+        </member>
+        <member name="F:SpotifyExplode.Albums.AlbumType.Compilation">
+            <summary>
+            Compilation
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Artists.Artist.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:SpotifyExplode.Artists.ArtistClient">
+            <summary>
+            Operations related to Spotify artists.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Artists.ArtistClient" />.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistClient.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Operations related to Spotify artists.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Artists.ArtistClient" />.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistClient.GetAsync(SpotifyExplode.Artists.ArtistId,System.Threading.CancellationToken)">
+            <summary>
+            Gets the metadata associated with the specified artist.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistClient.GetAlbumsAsync(SpotifyExplode.Artists.ArtistId,System.Nullable{SpotifyExplode.Albums.AlbumType},System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets the metadata associated with the albums in a specified artist.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistClient.GetAllAlbumsAsync(SpotifyExplode.Artists.ArtistId,System.Nullable{SpotifyExplode.Albums.AlbumType},System.Threading.CancellationToken)">
+            <summary>
+            Gets the metadata associated with the albums in a specified artist.
+            </summary>
+        </member>
+        <member name="T:SpotifyExplode.Artists.ArtistId">
+            <summary>
+            Represents a syntactically valid Spotify artist ID.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.Artists.ArtistId.Value">
+            <summary>
+            Raw ID value.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistId.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistId.TryParse(System.String)">
+            <summary>
+            Attempts to parse the specified string as a track ID or URL.
+            Returns null in case of failure.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistId.Parse(System.String)">
+            <summary>
+            Parses the specified string as a Spotify track ID or URL.
+            Throws an exception in case of failure.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistId.op_Implicit(System.String)~SpotifyExplode.Artists.ArtistId">
+            <summary>
+            Converts string to ID.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistId.op_Implicit(SpotifyExplode.Artists.ArtistId)~System.String">
+            <summary>
+            Converts ID to string.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistId.Equals(SpotifyExplode.Artists.ArtistId)">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistId.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistId.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistId.op_Equality(SpotifyExplode.Artists.ArtistId,SpotifyExplode.Artists.ArtistId)">
+            <summary>
+            Equality check.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Artists.ArtistId.op_Inequality(SpotifyExplode.Artists.ArtistId,SpotifyExplode.Artists.ArtistId)">
+            <summary>
+            Equality check.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.Common.ExternalIds.IsrcCode">
+            <summary>
+            International Standard Recording Code
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.Common.ExternalIds.EanCode">
+            <summary>
+            International Article Number
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.Common.ExternalIds.UpcCode">
+            <summary>
+            Universal Product Code
+            </summary>
+        </member>
+        <member name="T:SpotifyExplode.Exceptions.RequestLimitExceededException">
+            <summary>
+            Exception thrown when Spotify denies a request because the client has exceeded rate limit.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Exceptions.RequestLimitExceededException"/>.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Exceptions.RequestLimitExceededException.#ctor(System.String)">
+            <summary>
+            Exception thrown when Spotify denies a request because the client has exceeded rate limit.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Exceptions.RequestLimitExceededException"/>.
+            </remarks>
+        </member>
+        <member name="T:SpotifyExplode.Exceptions.SpotifyExplodeException">
+            <summary>
+            Exception thrown within <see cref="N:SpotifyExplode"/>.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Exceptions.SpotifyExplodeException"/>.
+            </remarks>
+            <param name="message"></param>
+        </member>
+        <member name="M:SpotifyExplode.Exceptions.SpotifyExplodeException.#ctor(System.String)">
+            <summary>
+            Exception thrown within <see cref="N:SpotifyExplode"/>.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Exceptions.SpotifyExplodeException"/>.
+            </remarks>
+            <param name="message"></param>
+        </member>
+        <member name="M:SpotifyExplode.Http.IEUserAgent">
+            <summary>
+            Generates a random User-Agent from the IE browser.
+            </summary>
+            <returns>Random User-Agent from IE browser.</returns>
+        </member>
+        <member name="M:SpotifyExplode.Http.OperaUserAgent">
+            <summary>
+            Generates a random User-Agent from the Opera browser.
+            </summary>
+            <returns>A random User-Agent from the Opera browser.</returns>
+        </member>
+        <member name="M:SpotifyExplode.Http.ChromeUserAgent">
+            <summary>
+            Generates a random User-Agent from the Chrome browser.
+            </summary>
+            <returns>Random User-Agent from Chrome browser.</returns>
+        </member>
+        <member name="M:SpotifyExplode.Http.FirefoxUserAgent">
+            <summary>
+            Generates a random User-Agent from the Firefox browser.
+            </summary>
+            <returns>Random User-Agent from the Firefox browser.</returns>
+        </member>
+        <member name="M:SpotifyExplode.Http.OperaMiniUserAgent">
+            <summary>
+            Generates a random User-Agent from the Opera mobile browser.
+            </summary>
+            <returns>Random User-Agent from Opera mobile browser.</returns>
+        </member>
+        <member name="M:SpotifyExplode.Http.RandomUserAgent">
+            <summary>
+            Returns a random Chrome / Firefox / Opera User-Agent based on their popularity.
+            </summary>
+            <returns>User-Agent header value string</returns>
+        </member>
+        <member name="P:SpotifyExplode.Playlists.Playlist.Limit">
+            <summary>
+            Maximum number of results to return.
+            Default: 20
+            Minimum: 1
+            Maximum: 50
+            Note: The limit is applied within each type, not on the total response.
+            For example, if the limit value is 3 and the type is artist,album,
+            the response contains 3 artists and 3 albums.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.Playlist.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:SpotifyExplode.Playlists.PlaylistClient">
+            <summary>
+            Operations related to Spotify playlists.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Playlists.PlaylistClient" />.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistClient.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Operations related to Spotify playlists.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Playlists.PlaylistClient" />.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistClient.GetAsync(SpotifyExplode.Playlists.PlaylistId,System.Threading.CancellationToken)">
+            <summary>
+            Gets the metadata associated with the specified playlist.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistClient.GetPlaylistRawAsync(SpotifyExplode.Playlists.PlaylistId,System.Threading.CancellationToken)">
+            <summary>
+            Gets the playlist RAW JSON STR
+            </summary>
+            <param name="playlistId"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistClient.GetRawAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets the json str from the raw uri provided
+            </summary>
+            <param name="uri"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistClient.GetItemsAsync(SpotifyExplode.Playlists.PlaylistId,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets the tracks associated with the specified playlist.
+            </summary>
+            <param name="playlistId"></param>
+            <param name="offset"></param>
+            <param name="limit">Limit should not exceed 100 according to Spotify</param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:SpotifyExplode.Exceptions.RequestLimitExceededException"></exception>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistClient.GetAllItemsAsync(SpotifyExplode.Playlists.PlaylistId,System.Threading.CancellationToken)">
+            <summary>
+            Gets the items associated with the specified playlist.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistClient.GetTracksAsync(SpotifyExplode.Playlists.PlaylistId,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets the tracks associated with the specified playlist.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistClient.GetAllTracksAsync(SpotifyExplode.Playlists.PlaylistId,System.Threading.CancellationToken)">
+            <summary>
+            Gets all the tracks associated with the specified playlist.
+            </summary>
+        </member>
+        <member name="T:SpotifyExplode.Playlists.PlaylistId">
+            <summary>
+            Represents a syntactically valid Spotify playlist ID.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.Playlists.PlaylistId.Value">
+            <summary>
+            Raw ID value.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistId.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistId.TryParse(System.String)">
+            <summary>
+            Attempts to parse the specified string as a track ID or URL.
+            Returns null in case of failure.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistId.Parse(System.String)">
+            <summary>
+            Parses the specified string as a Spotify track ID or URL.
+            Throws an exception in case of failure.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistId.op_Implicit(System.String)~SpotifyExplode.Playlists.PlaylistId">
+            <summary>
+            Converts string to ID.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistId.op_Implicit(SpotifyExplode.Playlists.PlaylistId)~System.String">
+            <summary>
+            Converts ID to string.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistId.Equals(SpotifyExplode.Playlists.PlaylistId)">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistId.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistId.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistId.op_Equality(SpotifyExplode.Playlists.PlaylistId,SpotifyExplode.Playlists.PlaylistId)">
+            <summary>
+            Equality check.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Playlists.PlaylistId.op_Inequality(SpotifyExplode.Playlists.PlaylistId,SpotifyExplode.Playlists.PlaylistId)">
+            <summary>
+            Equality check.
+            </summary>
+        </member>
+        <member name="T:SpotifyExplode.Search.ISearchResult">
+            <summary>
+            <p>
+                Abstract result returned by a search query.
+                Use pattern matching to handle specific instances of this type.
+            </p>
+            <p>
+                Can be either one of the following:
+                <list type="bullet">
+                    <item><see cref="T:SpotifyExplode.Search.AlbumSearchResult" /></item>
+                    <item><see cref="T:SpotifyExplode.Search.ArtistSearchResult" /></item>
+                    <item><see cref="T:SpotifyExplode.Search.TrackSearchResult" /></item>
+                    <item><see cref="T:SpotifyExplode.Search.PlaylistSearchResult" /></item>
+                </list>
+            </p>
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.Search.ISearchResult.Url">
+            <summary>
+            Result URL.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.Search.ISearchResult.Title">
+            <summary>
+            Result title.
+            </summary>
+        </member>
+        <member name="T:SpotifyExplode.Search.SearchClient">
+            <summary>
+            Operations related to Spotify search.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Search.SearchClient" />.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Search.SearchClient.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Operations related to Spotify search.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Search.SearchClient" />.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Search.SearchClient.GetResultsAsync(System.String,SpotifyExplode.Search.SearchFilter,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets the metadata associated with the specified artist.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Search.SearchClient.GetAlbumsAsync(System.String,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets album search results returned by the specified query.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Search.SearchClient.GetArtistsAsync(System.String,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets artist search results returned by the specified query.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Search.SearchClient.GetPlaylistsAsync(System.String,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets playlist search results returned by the specified query.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Search.SearchClient.GetTracksAsync(System.String,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets track search results returned by the specified query.
+            </summary>
+        </member>
+        <member name="T:SpotifyExplode.Search.SearchFilter">
+            <summary>
+            Filter applied to a Spotify search query.
+            </summary>
+        </member>
+        <member name="F:SpotifyExplode.Search.SearchFilter.Album">
+            <summary>
+            Only search for albums.
+            </summary>
+        </member>
+        <member name="F:SpotifyExplode.Search.SearchFilter.Artist">
+            <summary>
+            Only search for artists.
+            </summary>
+        </member>
+        <member name="F:SpotifyExplode.Search.SearchFilter.Playlist">
+            <summary>
+            Only search for playlists.
+            </summary>
+        </member>
+        <member name="F:SpotifyExplode.Search.SearchFilter.Track">
+            <summary>
+            Only search for tracks.
+            </summary>
+        </member>
+        <member name="T:SpotifyExplode.SpotifyClient">
+            <summary>
+            Client for interacting with Spotify.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.SpotifyClient.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Client for interacting with Spotify.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.SpotifyClient.Search">
+            <summary>
+            Operations related to Spotify search.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.SpotifyClient.Tracks">
+            <summary>
+            Operations related to Spotify tracks.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.SpotifyClient.Artists">
+            <summary>
+            Operations related to Spotify artists.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.SpotifyClient.Albums">
+            <summary>
+            Operations related to Spotify albums.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.SpotifyClient.Playlists">
+            <summary>
+            Operations related to Spotify playlists.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.SpotifyClient.Users">
+            <summary>
+            Operations related to Spotify users.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.SpotifyClient.#ctor">
+            <summary>
+            Initializes an instance of <see cref="T:SpotifyExplode.SpotifyClient" />.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.Tracks.Track.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:SpotifyExplode.Tracks.Track.Url">
+            <inheritdoc />
+        </member>
+        <member name="P:SpotifyExplode.Tracks.Track.Title">
+            <inheritdoc />
+        </member>
+        <member name="P:SpotifyExplode.Tracks.Track.ExternalIds">
+            <summary>
+            Known external IDs for the track.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.Track.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:SpotifyExplode.Tracks.TrackClient">
+            <summary>
+            Operations related to Spotify tracks.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Tracks.TrackClient" />.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackClient.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Operations related to Spotify tracks.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Tracks.TrackClient" />.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackClient.GetAsync(SpotifyExplode.Tracks.TrackId,System.Threading.CancellationToken)">
+            <summary>
+            Gets the metadata associated with the specified track.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackClient.GetYoutubeIdAsync(SpotifyExplode.Tracks.TrackId,System.Threading.CancellationToken)">
+            <summary>
+            Gets the best match YouTube ID using <see href="https://spotifydown.com/">spotifydown.com</see>.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackClient.GetDownloadUrlAsync(SpotifyExplode.Tracks.TrackId,System.Threading.CancellationToken)">
+            <summary>
+            Gets the metadata associated with the specified track.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackClient.GetSpotifymateUrlAsync(SpotifyExplode.Tracks.TrackId,System.Threading.CancellationToken)">
+            <summary>
+            Gets download link from <see href="https://spotifymate.com">spotifymate.com</see>
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackClient.GetSpotifyDownloaderUrlAsync(SpotifyExplode.Tracks.TrackId,System.Threading.CancellationToken)">
+            <summary>
+            Gets download link from <see href="https://spotify-downloader.com/">spotify-downloader.com</see>
+            </summary>
+        </member>
+        <member name="T:SpotifyExplode.Tracks.TrackId">
+            <summary>
+            Represents a syntactically valid Spotify track ID.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.Tracks.TrackId.Value">
+            <summary>
+            Raw ID value.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackId.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackId.TryParse(System.String)">
+            <summary>
+            Attempts to parse the specified string as a track ID or URL.
+            Returns null in case of failure.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackId.Parse(System.String)">
+            <summary>
+            Parses the specified string as a Spotify track ID or URL.
+            Throws an exception in case of failure.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackId.op_Implicit(System.String)~SpotifyExplode.Tracks.TrackId">
+            <summary>
+            Converts string to ID.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackId.op_Implicit(SpotifyExplode.Tracks.TrackId)~System.String">
+            <summary>
+            Converts ID to string.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackId.Equals(SpotifyExplode.Tracks.TrackId)">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackId.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackId.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackId.op_Equality(SpotifyExplode.Tracks.TrackId,SpotifyExplode.Tracks.TrackId)">
+            <summary>
+            Equality check.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Tracks.TrackId.op_Inequality(SpotifyExplode.Tracks.TrackId,SpotifyExplode.Tracks.TrackId)">
+            <summary>
+            Equality check.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Users.User.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:SpotifyExplode.Users.UserClient">
+            <summary>
+            Operations related to Spotify users.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Users.UserClient" />.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Users.UserClient.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Operations related to Spotify users.
+            </summary>
+            <remarks>
+            Initializes an instance of <see cref="T:SpotifyExplode.Users.UserClient" />.
+            </remarks>
+        </member>
+        <member name="M:SpotifyExplode.Users.UserClient.GetAsync(SpotifyExplode.Users.UserId,System.Threading.CancellationToken)">
+            <summary>
+            Gets the metadata associated with the specified user.
+            </summary>
+        </member>
+        <member name="T:SpotifyExplode.Users.UserId">
+            <summary>
+            Represents a syntactically valid Spotify user ID.
+            </summary>
+        </member>
+        <member name="P:SpotifyExplode.Users.UserId.Value">
+            <summary>
+            Raw ID value.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Users.UserId.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Users.UserId.TryParse(System.String)">
+            <summary>
+            Attempts to parse the specified string as a track ID or URL.
+            Returns null in case of failure.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Users.UserId.Parse(System.String)">
+            <summary>
+            Parses the specified string as a Spotify track ID or URL.
+            Throws an exception in case of failure.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Users.UserId.op_Implicit(System.String)~SpotifyExplode.Users.UserId">
+            <summary>
+            Converts string to ID.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Users.UserId.op_Implicit(SpotifyExplode.Users.UserId)~System.String">
+            <summary>
+            Converts ID to string.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Users.UserId.Equals(SpotifyExplode.Users.UserId)">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Users.UserId.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Users.UserId.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:SpotifyExplode.Users.UserId.op_Equality(SpotifyExplode.Users.UserId,SpotifyExplode.Users.UserId)">
+            <summary>
+            Equality check.
+            </summary>
+        </member>
+        <member name="M:SpotifyExplode.Users.UserId.op_Inequality(SpotifyExplode.Users.UserId,SpotifyExplode.Users.UserId)">
+            <summary>
+            Equality check.
+            </summary>
+        </member>
+        <member name="T:SpotifyExplode.Utils.Randomizer">
+            <summary>
+            Wrapper class for thread-safe generation of pseudo-random numbers.
+            Lazy-load singleton for ThreadStatic <see cref="T:System.Random"/>.
+            </summary>
+        </member>
+    </members>
+</doc>
