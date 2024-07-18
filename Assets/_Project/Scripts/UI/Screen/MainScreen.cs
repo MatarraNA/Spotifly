@@ -44,7 +44,7 @@ public class MainScreen : MonoBehaviour, IScreen
         }
 
         // now handle everything important
-        var lists = Database.GetPlaylists();
+        var lists = Database.Playlist.GetPlaylists();
         foreach( var list in lists )
         {
             // create new
@@ -59,6 +59,7 @@ public class MainScreen : MonoBehaviour, IScreen
     private IEnumerator PlaylistSearchCoro()
     {
         // popup!
+        SoundManager.instance.PlayOpenUI();
         var box = MainUI.instance.SimpleDialogBox("Searching for Playlist...", false, GetCanvasGroup());
         string id = "";
 
@@ -73,15 +74,17 @@ public class MainScreen : MonoBehaviour, IScreen
             // failed to get the playlist ID
             box.SetText("Error:\nFailed to get playlist ID from URL");
             box.SetInteractable(true);
+            SoundManager.instance.PlayErrorUI();
             yield break;
         }
 
         // is the playlist ID already saved?
-        var existing = Database.GetPlaylist(id);
+        var existing = Database.Playlist.GetPlaylist(id);
         if(existing != null)
         {
             box.SetText("Error:\nPlaylist is already added");
             box.SetInteractable(true);
+            SoundManager.instance.PlayErrorUI();
             yield break;
         }
 
@@ -94,6 +97,7 @@ public class MainScreen : MonoBehaviour, IScreen
         {
             box.SetText("Error:\nFailed to download playlist");
             box.SetInteractable(true);
+            SoundManager.instance.PlayErrorUI();
             yield break;
         }
         var playlist = playlistTask.Result;
@@ -101,6 +105,7 @@ public class MainScreen : MonoBehaviour, IScreen
         {
             box.SetText("Error:\nFailed to deserialize playlist");
             box.SetInteractable(true);
+            SoundManager.instance.PlayErrorUI();
             yield break;
         }
 
@@ -109,24 +114,26 @@ public class MainScreen : MonoBehaviour, IScreen
         {
             box.SetText("Error:\nPlaylist contains no tracks");
             box.SetInteractable(true);
+            SoundManager.instance.PlayErrorUI();
             yield break;
         }
 
         // playlist aquired, now save to database
-        var plist = Database.CreatePlaylist(id);
+        var plist = Database.Playlist.CreatePlaylist(id);
         try
         {
             plist.PlaylistIconURL = playlist.images.Any() ? playlist.images.FirstOrDefault().url : "";
             plist.PlaylistName = playlist.name;
             plist.PlaylistOwner = playlist.owner.display_name;
             plist.SetPlaylistTracks(playlist.tracks.items);
-            Database.SetPlaylist(plist);
+            Database.Playlist.SetPlaylist(plist);
         }
         catch( Exception )
         {
             // failed to parse playlist
             box.SetText("Error:\nDeserialized playlist missing info");
             box.SetInteractable(true);
+            SoundManager.instance.PlayErrorUI();
             yield break;
         }
 
@@ -136,6 +143,7 @@ public class MainScreen : MonoBehaviour, IScreen
         // finally, update textbox
         box.SetText($"Playlist Imported:\n\n{playlist.name}");
         box.SetInteractable(true);
+        SoundManager.instance.PlayConfirmUI();
         _playlistSearchField.text = "";
         yield break;
     }

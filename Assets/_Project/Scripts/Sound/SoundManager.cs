@@ -11,6 +11,21 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource _uiAudioSource;
 
+    [Header("UI SOUNDS")]
+    [SerializeField]
+    private AudioClip _openSound;
+    [SerializeField]
+    private AudioClip _closeSound;
+    [SerializeField]
+    private AudioClip _confirmSound;
+    [SerializeField]
+    private AudioClip _cursorSound;
+    [SerializeField]
+    private AudioClip _errorSound;
+    [SerializeField]
+    private AudioClip _loadSaveSound;
+
+
     private float _songStartOffset;
 
     private void Awake()
@@ -20,8 +35,45 @@ public class SoundManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if( PlayerPrefs.HasKey("master_volume"))
-            _songAudioSource.volume = PlayerPrefs.GetFloat("master_volume");
+        _songAudioSource.volume = Config.ConfigFile.MusicVol * Config.ConfigFile.MasterVol;
+        _uiAudioSource.volume = Config.ConfigFile.UIVol * Config.ConfigFile.MasterVol;
+    }
+
+    public void PlayOpenUI()
+    {
+        if (_uiAudioSource.isPlaying) _uiAudioSource.Stop();
+        _uiAudioSource.clip = _openSound;
+        _uiAudioSource.Play();
+    }
+    public void PlayCloseUI()
+    {
+        if (_uiAudioSource.isPlaying) _uiAudioSource.Stop();
+        _uiAudioSource.clip = _closeSound;
+        _uiAudioSource.Play();
+    }
+    public void PlayConfirmUI()
+    {
+        if (_uiAudioSource.isPlaying) _uiAudioSource.Stop();
+        _uiAudioSource.clip = _confirmSound;
+        _uiAudioSource.Play();
+    }
+    public void PlayCursorUI()
+    {
+        if (_uiAudioSource.isPlaying) _uiAudioSource.Stop();
+        _uiAudioSource.clip = _cursorSound;
+        _uiAudioSource.Play();
+    }
+    public void PlayErrorUI()
+    {
+        if (_uiAudioSource.isPlaying) _uiAudioSource.Stop();
+        _uiAudioSource.clip = _errorSound;
+        _uiAudioSource.Play();
+    }
+    public void PlayLoadSaveUI()
+    {
+        if (_uiAudioSource.isPlaying) _uiAudioSource.Stop();
+        _uiAudioSource.clip = _loadSaveSound;
+        _uiAudioSource.Play();
     }
 
     /// <summary>

@@ -30,6 +30,8 @@ public class GameplayScreen : MonoBehaviour, IScreen
 
     [Header("UI ELEMENTS")]
     [SerializeField]
+    private SongStatsUI _songStatsUI;
+    [SerializeField]
     private SongCompleteUI _songCompleteUI;
     [SerializeField]
     private TMP_InputField _searchSongField;
@@ -51,6 +53,10 @@ public class GameplayScreen : MonoBehaviour, IScreen
     private Transform _searchScrollRectContentRoot;
     [SerializeField]
     private SearchResultEntry _searchResultEntryPrefab;
+    [SerializeField]
+    private Button _quitBtn;
+    [SerializeField]
+    private Button _settingsBtn;
 
     [Header("ICON INFO")]
     [SerializeField]
@@ -72,6 +78,7 @@ public class GameplayScreen : MonoBehaviour, IScreen
 
     // GAMEPLAY VARS
     private PlaylistEntry _playlistEntry;
+    private bool _trackGuessingTime = false;
     private PlaylistRoot.Item _currentTrack;
     private AudioClip _currentClip;
     private float _currentClipStartOffset;
@@ -79,6 +86,10 @@ public class GameplayScreen : MonoBehaviour, IScreen
     private int _currentGuessCount;
     private string _currentSongStr;
     private List<string> _allSongNameList = new List<string>();
+
+    // STAT VARS
+    private float _currentListenTime = 0;
+    private float _currentGuessTime = 0;
 
     private void Awake()
     {
@@ -91,10 +102,31 @@ public class GameplayScreen : MonoBehaviour, IScreen
             else
                 SoundManager.instance.StopSong(); 
         });
+        _quitBtn.onClick.AddListener(() =>
+        {
+            // clean up all the shit
+            MainUI.instance.GameplayScreen.PreTransitionOutCleanup();
+            // just transition to main menu
+            StartCoroutine(MainUI.instance.ScreenTransitionCoro(MainUI.instance.GameplayScreen, MainUI.instance.MainScreen, 0.66f));
+            SoundManager.instance.PlayCloseUI();
+        });
 
-        _skipBtn.onClick.AddListener(() => StartCoroutine(OnSkipBtnCoro()));
+        _skipBtn.onClick.AddListener(() =>
+        {
+            SoundManager.instance.PlayConfirmUI();
+            StartCoroutine(OnSkipBtnCoro());
+        });
         _searchSongField.onValueChanged.AddListener((x) => StartCoroutine(OnSearchFieldChangedCoro(x)));
-        _submitSongBtn.onClick.AddListener(() => StartCoroutine(OnSubmitBtnCoro()));
+        _submitSongBtn.onClick.AddListener(() =>
+        {
+            SoundManager.instance.PlayConfirmUI();
+            StartCoroutine(OnSubmitBtnCoro());
+        });
+        _settingsBtn.onClick.AddListener( () =>
+        {
+            SoundManager.instance.PlayOpenUI();
+            MainUI.instance.DisplaySettingsUI();
+        });
     }
 
     private void Start()
@@ -106,6 +138,10 @@ public class GameplayScreen : MonoBehaviour, IScreen
 
     private void FixedUpdate()
     {
+        // CALCULATIONS
+        if (SoundManager.instance.GetIsPlaying() && _trackGuessingTime) _currentListenTime += Time.fixedDeltaTime;
+        if (_trackGuessingTime) _currentGuessTime += Time.fixedDeltaTime;
+
         // update UI elements
         var span = TimeSpan.FromSeconds(SoundManager.instance.GetCurrentPlaybackTimeNormalized());
         _currentTimeTM.text = span.Minutes + ":" + span.Seconds.ToString("00");
@@ -114,8 +150,13 @@ public class GameplayScreen : MonoBehaviour, IScreen
         _playBtnImg.sprite = SoundManager.instance.GetIsPlaying() ? _pauseSprite : _playSprite;
 
         // GAMEPLAY
-        if (SoundManager.instance.GetCurrentPlaybackTimeNormalized() >= GetAllowedTime(_currentGuessCount))
+        if (SoundManager.instance.GetCurrentPlaybackTimeNormalized() >= GetAllowedTime(_currentGuessCount) && _currentMaxAllowedTime == MAX_ALLOWED_TIME)
             SoundManager.instance.StopSong();
+
+        // STATS UI
+        _songStatsUI.ListenTime= _currentListenTime;
+        _songStatsUI.GuessTime = _currentGuessTime;
+        _songStatsUI.Guesses = _currentGuessCount;
     }
 
     /// <summary>
@@ -132,6 +173,9 @@ public class GameplayScreen : MonoBehaviour, IScreen
         {
             item.ClearEntry();
         }
+
+        // dont conitue to track value next scene
+        _trackGuessingTime = false;
 
         // stop any music
         SoundManager.instance.StopSong();
@@ -291,14 +335,31 @@ public class GameplayScreen : MonoBehaviour, IScreen
         // make sure everything is deselected
         EventSystem.current.SetSelectedGameObject(null);
 
+        // play victory sound on win
+        if( won ) SoundManager.instance.PlayLoadSaveUI();
+
         // play the song out so something to listen to
         SoundManager.instance.PlaySong(_currentClip, _currentClipStartOffset);
         _currentMaxAllowedTime = float.MaxValue;
+        _trackGuessingTime = false;
 
         // load the box
         MainUI.instance.ToggleCanvasGroupInteract(_songCompleteUI.GetCanvasGroup(), true);
         _songCompleteUI.SetBorderColor(won ? _correctColor : _incorrectColor);
         _songCompleteUI.GetCanvasGroup().DOFade(1f, 0.33f);
+
+        // submit stats to database
+        var game = new GameEntry()
+        {
+            DatePlayed = DateTime.Now,
+            GuessesUsed = _currentGuessCount,
+            GuessingTime = _currentGuessTime,
+            ListenTime = _currentListenTime,
+            PlaylistId = _playlistEntry.PlaylistId,
+            TrackId = _currentTrack.track.id,
+            Won = won
+        };
+        Database.Game.CreateOrUpdateGame(game);
         yield break;
     }
 
@@ -315,6 +376,9 @@ public class GameplayScreen : MonoBehaviour, IScreen
         _currentSongStr = "";
         _currentMaxAllowedTime = MAX_ALLOWED_TIME;
         _allSongNameList.Clear();
+        _currentGuessTime = 0f;
+        _currentListenTime = 0f;
+        _songStatsUI.FetchPlaylistStats(_playlistEntry.PlaylistId);
 
         // clear all guess entries
         foreach(var entry in _guessEntryList)
@@ -360,6 +424,9 @@ public class GameplayScreen : MonoBehaviour, IScreen
         // populate the end message now, so it can download the icon
         string albumImgURL = _currentTrack.track.album.images.Any() ? _currentTrack.track.album.images.First().url : "";
         _songCompleteUI.SetTrack(_currentTrack.track.name, TrackToArtistString(_currentTrack.track), albumImgURL);
+
+        // start tracking guessing time
+        _trackGuessingTime = true;
 
         // populate the song list
         Debug.Log(_currentSongStr);

@@ -30,6 +30,8 @@ public class SongCompleteUI : MonoBehaviour
 
             // just transition to main menu
             StartCoroutine(MainUI.instance.ScreenTransitionCoro(MainUI.instance.GameplayScreen, MainUI.instance.MainScreen, 0.66f));
+
+            SoundManager.instance.PlayCloseUI();
         });
 
         _playAgainBtn.onClick.AddListener(() =>
@@ -39,6 +41,9 @@ public class SongCompleteUI : MonoBehaviour
 
             // start it up again
             MainUI.instance.GameplayScreen.ReinitializePlaylist();
+
+            // play SFX
+            SoundManager.instance.PlayConfirmUI();
         });   
     }
 

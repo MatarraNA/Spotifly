@@ -12,88 +12,122 @@ public static class Database
     /// </summary>
     private static readonly string DB_PATH = "data.litedb";
     private static readonly string PLAYLIST_COLLECTION = "playlists";
+    private static readonly string GAME_ENTRY_COLLECTION = "gamesplayed";
 
-    /// <summary>
-    /// Get a collection of ALL playlists in the database
-    /// </summary>
-    public static List<PlaylistEntry> GetPlaylists()
+    public static class Game
     {
-        using( var db = new UltraLiteDatabase(DB_PATH)) 
+        /// <summary>
+        /// Creates a new GAME in the database, or updates existing
+        /// </summary>
+        public static void CreateOrUpdateGame(GameEntry entry)
         {
-            // get the coll
-            var col = db.GetCollection<PlaylistEntry>(PLAYLIST_COLLECTION);
-
-            // return it!
-            return col.FindAll().ToList();
-        }
-    }
-
-    /// <summary>
-    /// Creates a new playlist in the database
-    /// </summary>
-    public static PlaylistEntry CreatePlaylist(string playlistId)
-    {
-        using (var db = new UltraLiteDatabase(DB_PATH))
-        {
-            // get the coll
-            var col = db.GetCollection<PlaylistEntry>(PLAYLIST_COLLECTION);
-
-            // does list already exist with that id?
-            var existing = col.FindAll().Where(x => x.PlaylistId == playlistId).FirstOrDefault();
-            if (existing != null) return existing; // cannot create new, one exists already
-
-            // create new
-            var input = new PlaylistEntry()
+            using (var db = new UltraLiteDatabase(DB_PATH))
             {
-                PlaylistId = playlistId
-            };
+                // get the coll
+                var col = db.GetCollection<GameEntry>(GAME_ENTRY_COLLECTION);
 
-            // insert into database
-            col.Insert(input);
+                // add this document now
+                col.Upsert(entry);
+            }
+        }
 
-            // now return it
-            return col.FindAll().Where(x => x.PlaylistId == playlistId).FirstOrDefault();
+        public static List<GameEntry> GetGamesForPlaylist(string playlist)
+        {
+            using (var db = new UltraLiteDatabase(DB_PATH))
+            {
+                // get the coll
+                var col = db.GetCollection<GameEntry>(GAME_ENTRY_COLLECTION);
+
+                // add this document now
+                return col.FindAll().Where(x=>x.PlaylistId == playlist).ToList();
+            }
         }
     }
 
-    /// <summary>
-    /// Deletes an existing item from the database by ID
-    /// </summary>
-    /// <param name="playlistId"></param>
-    public static void DeletePlaylist(string playlistId)
+    public static class Playlist
     {
-        using (var db = new UltraLiteDatabase(DB_PATH))
+        /// <summary>
+        /// Get a collection of ALL playlists in the database
+        /// </summary>
+        public static List<PlaylistEntry> GetPlaylists()
         {
-            // get the coll
-            var col = db.GetCollection<PlaylistEntry>(PLAYLIST_COLLECTION);
+            using( var db = new UltraLiteDatabase(DB_PATH)) 
+            {
+                // get the coll
+                var col = db.GetCollection<PlaylistEntry>(PLAYLIST_COLLECTION);
 
-            var existing = col.FindAll().Where(x => x.PlaylistId == playlistId).FirstOrDefault();
-            if( existing == null ) return; // nothing to delete
-            col.Delete(existing.Id);
+                // return it!
+                return col.FindAll().ToList();
+            }
         }
-    }
 
-    public static PlaylistEntry GetPlaylist(string playlistId) 
-    {
-        using (var db = new UltraLiteDatabase(DB_PATH))
+        /// <summary>
+        /// Creates a new playlist in the database
+        /// </summary>
+        public static PlaylistEntry CreatePlaylist(string playlistId)
         {
-            // get the coll
-            var col = db.GetCollection<PlaylistEntry>(PLAYLIST_COLLECTION);
+            using (var db = new UltraLiteDatabase(DB_PATH))
+            {
+                // get the coll
+                var col = db.GetCollection<PlaylistEntry>(PLAYLIST_COLLECTION);
 
-            // does list already exist with that id?
-            var existing = col.FindAll().Where(x => x.PlaylistId == playlistId).FirstOrDefault();
-            return existing;
+                // does list already exist with that id?
+                var existing = col.FindAll().Where(x => x.PlaylistId == playlistId).FirstOrDefault();
+                if (existing != null) return existing; // cannot create new, one exists already
+
+                // create new
+                var input = new PlaylistEntry()
+                {
+                    PlaylistId = playlistId
+                };
+
+                // insert into database
+                col.Insert(input);
+
+                // now return it
+                return col.FindAll().Where(x => x.PlaylistId == playlistId).FirstOrDefault();
+            }
         }
-    }
-    public static void SetPlaylist(PlaylistEntry input)
-    {
-        using (var db = new UltraLiteDatabase(DB_PATH))
-        {
-            // get the coll
-            var col = db.GetCollection<PlaylistEntry>(PLAYLIST_COLLECTION);
 
-            // update it!
-            col.Update(input);
+        /// <summary>
+        /// Deletes an existing item from the database by ID
+        /// </summary>
+        /// <param name="playlistId"></param>
+        public static void DeletePlaylist(string playlistId)
+        {
+            using (var db = new UltraLiteDatabase(DB_PATH))
+            {
+                // get the coll
+                var col = db.GetCollection<PlaylistEntry>(PLAYLIST_COLLECTION);
+
+                var existing = col.FindAll().Where(x => x.PlaylistId == playlistId).FirstOrDefault();
+                if( existing == null ) return; // nothing to delete
+                col.Delete(existing.Id);
+            }
+        }
+
+        public static PlaylistEntry GetPlaylist(string playlistId) 
+        {
+            using (var db = new UltraLiteDatabase(DB_PATH))
+            {
+                // get the coll
+                var col = db.GetCollection<PlaylistEntry>(PLAYLIST_COLLECTION);
+
+                // does list already exist with that id?
+                var existing = col.FindAll().Where(x => x.PlaylistId == playlistId).FirstOrDefault();
+                return existing;
+            }
+        }
+        public static void SetPlaylist(PlaylistEntry input)
+        {
+            using (var db = new UltraLiteDatabase(DB_PATH))
+            {
+                // get the coll
+                var col = db.GetCollection<PlaylistEntry>(PLAYLIST_COLLECTION);
+
+                // update it!
+                col.Update(input);
+            }
         }
     }
 }

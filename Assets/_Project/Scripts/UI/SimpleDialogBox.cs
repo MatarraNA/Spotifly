@@ -15,7 +15,11 @@ public class SimpleDialogBox : MonoBehaviour
 
     private void Awake()
     {
-        _dialogBoxOKBtn.onClick.AddListener(() => OnDialogOk());
+        _dialogBoxOKBtn.onClick.AddListener(() =>
+        {
+            SoundManager.instance.PlayCloseUI();
+            OnDialogOk();
+        });
     }
 
     /// <summary>

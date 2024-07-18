@@ -48,6 +48,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _songAudioSource: {fileID: 3146102107273337222}
   _uiAudioSource: {fileID: 520123693805480035}
+  _openSound: {fileID: 8300000, guid: 689273d8734e3044f894968aa62e00f3, type: 3}
+  _closeSound: {fileID: 8300000, guid: 2f741441c20d64d488b8d2197a26ca2a, type: 3}
+  _confirmSound: {fileID: 8300000, guid: 5dc84dafb1b1d92429bd86caea9eaddf, type: 3}
+  _cursorSound: {fileID: 8300000, guid: f9bab1ce416bebd428034cf3946110f6, type: 3}
+  _errorSound: {fileID: 8300000, guid: 97b71016960abda47b0bb13d49009413, type: 3}
+  _loadSaveSound: {fileID: 8300000, guid: 6f7c250375726e84f89b14e47b11357d, type: 3}
 --- !u!1 &5023920935936513277
 GameObject:
   m_ObjectHideFlags: 0

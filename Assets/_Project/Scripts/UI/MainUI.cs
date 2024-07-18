@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MainUI : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class MainUI : MonoBehaviour
 
     [SerializeField]
     private SimpleDialogBox _dialogBoxPrefab;
+    [SerializeField]
+    private SettingsUI _settingsPrefab;
 
 
     /// <summary>
@@ -85,5 +88,17 @@ public class MainUI : MonoBehaviour
         var box = Instantiate(_dialogBoxPrefab, this.transform);
         box.Initialize(message, allowButtonInteract, blockScreenInteraction);
         return box;
+    }
+
+    /// <summary>
+    /// Safe to call from anywhere, will display a settings box
+    /// </summary>
+    public void DisplaySettingsUI()
+    {
+        // ensure nothing behind settings is controlled
+        EventSystem.current.SetSelectedGameObject(null);
+
+        // spawn the settings UI
+        Instantiate(_settingsPrefab, this.transform);
     }
 }

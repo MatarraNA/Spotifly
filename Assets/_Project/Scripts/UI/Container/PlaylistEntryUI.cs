@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class PlaylistEntryUI : MonoBehaviour
+public class PlaylistEntryUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private Image _playlistIconImg;
@@ -27,12 +28,17 @@ public class PlaylistEntryUI : MonoBehaviour
     /// </summary>
     private PlaylistEntry _playlistEntry;
 
+    private Vector3 _originalScale;
+
     private void Awake()
     {
         // callbacks
         _downloadPlaylistBtn.onClick.AddListener(() => StartCoroutine(OnDownloadPlaylistBtnCoro()));
         _deletePlaylistBtn.onClick.AddListener(() => StartCoroutine(OnDeletPlaylistBtnCoro()));
         _playBtn.onClick.AddListener(() => StartCoroutine(OnPlayBtnCoro()));
+
+        // inits
+        _originalScale = transform.localScale;
     }
 
     /// <summary>
@@ -54,7 +60,8 @@ public class PlaylistEntryUI : MonoBehaviour
     private IEnumerator OnDeletPlaylistBtnCoro()
     {
         // remove this playlist from the database
-        Database.DeletePlaylist(_playlistEntry.PlaylistId);
+        SoundManager.instance.PlayConfirmUI();
+        Database.Playlist.DeletePlaylist(_playlistEntry.PlaylistId);
         MainUI.instance.MainScreen.PopulatePlaylists();
         yield break;
     }   
@@ -63,6 +70,7 @@ public class PlaylistEntryUI : MonoBehaviour
     {
         var box = MainUI.instance.SimpleDialogBox("Fetching Playlist...", false, MainUI.instance.MainScreen.GetCanvasGroup());
 
+        SoundManager.instance.PlayOpenUI();
         var playlistTask = SpotifyAPI.GetPlaylistAsync(_playlistEntry.PlaylistId);
         yield return new WaitUntil( () =>  playlistTask.IsCompleted);
         var playlist = playlistTask.Result;
@@ -71,15 +79,17 @@ public class PlaylistEntryUI : MonoBehaviour
         {
             box.SetText("Error:\nFailed to deserialize playlist");
             box.SetInteractable(true);
+            SoundManager.instance.PlayErrorUI();
             yield break;
         }
 
         // does the playlist have any tracks?
         if (!playlist.tracks.items.Any())
         {
-            Database.DeletePlaylist(_playlistEntry.PlaylistId);
+            Database.Playlist.DeletePlaylist(_playlistEntry.PlaylistId);
             MainUI.instance.MainScreen.PopulatePlaylists();
             box.SetText("Error:\nPlaylist contains no tracks. Deleting playlist.");
+            SoundManager.instance.PlayErrorUI();
             box.SetInteractable(true);
             yield break;
         }
@@ -89,20 +99,22 @@ public class PlaylistEntryUI : MonoBehaviour
         _playlistEntry.PlaylistIconURL = playlist.images.Any() ? playlist.images.FirstOrDefault().url : "";
         _playlistEntry.PlaylistOwner = playlist.owner.display_name;
         _playlistEntry.SetPlaylistTracks(playlist.tracks.items);
-        Database.SetPlaylist(_playlistEntry);
+        Database.Playlist.SetPlaylist(_playlistEntry);
         Populate(_playlistEntry);
 
         // update box!
-        box.SetText("Playlist Updated!");
         box.SetInteractable(true);
+        box.OnDialogOk();
     }
 
     private IEnumerator OnPlayBtnCoro()
     {
         // does this playlist have any viable songs?
+        SoundManager.instance.PlayConfirmUI();
         var song = _playlistEntry.GetRandomViableTrack();
         if (song == null)
         {
+            SoundManager.instance.PlayErrorUI();
             MainUI.instance.SimpleDialogBox("Error:\nNo viable song to select in this playlist.", true, MainUI.instance.MainScreen.GetCanvasGroup());
             yield break;
         }
@@ -133,5 +145,21 @@ public class PlaylistEntryUI : MonoBehaviour
         // send to img
         var sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f));
         _playlistIconImg.sprite = sprite;
+    }
+
+    /// <summary>
+    /// Implemented just for UI sounds
+    /// </summary>
+    /// <param name="eventData"></param>
+    /// <exception cref="System.NotImplementedException"></exception>
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        SoundManager.instance.PlayCursorUI();
+        this.transform.DOScale(_originalScale * 1.02f, 0.33f);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        this.transform.DOScale(_originalScale, 0.33f);
     }
 }
