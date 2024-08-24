@@ -1,4 +1,6 @@
 using DG.Tweening;
+using FishNet.Managing;
+using FishNet.Managing.Server;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,6 +120,10 @@ public class PlaylistEntryUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
             MainUI.instance.SimpleDialogBox("Error:\nNo viable song to select in this playlist.", true, MainUI.instance.MainScreen.GetCanvasGroup());
             yield break;
         }
+
+        // start a new lobby
+        NetworkController.Instance.StartServer();
+        yield return new WaitForFixedUpdate();
 
         // handle scene transition
         yield return MainUI.instance.ScreenTransitionCoro(MainUI.instance.MainScreen, MainUI.instance.GameplayScreen, 0.66f);

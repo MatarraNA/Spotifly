@@ -1,3 +1,4 @@
+using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,7 +7,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class SongCompleteUI : MonoBehaviour
+public class SongCompleteUI : NetworkBehaviour
 {
     private CanvasGroup _canvasGroup;
 
@@ -25,26 +26,47 @@ public class SongCompleteUI : MonoBehaviour
 
         _mainMenuBtn.onClick.AddListener(() =>
         {
-            // clean up all the shit
-            MainUI.instance.GameplayScreen.PreTransitionOutCleanup();
-
-            // just transition to main menu
-            StartCoroutine(MainUI.instance.ScreenTransitionCoro(MainUI.instance.GameplayScreen, MainUI.instance.MainScreen, 0.66f));
-
+            // close UI
             SoundManager.instance.PlayCloseUI();
+
+            // close connection
+            NetworkController.Instance.StopConnection();
+
         });
 
         _playAgainBtn.onClick.AddListener(() =>
         {
-            // clean up all the shit
-            MainUI.instance.GameplayScreen.PreTransitionOutCleanup();
-
-            // start it up again
-            MainUI.instance.GameplayScreen.ReinitializePlaylist();
-
-            // play SFX
-            SoundManager.instance.PlayConfirmUI();
+            RpcPlayAgainBtnServer();
         });   
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RpcPlayAgainBtnServer()
+    {
+        // clean up all the shit
+        MainUI.instance.GameplayScreen.PreTransitionOutCleanup();
+
+        // tell all clients to client up
+        RpcCleanupServer();
+
+        // start it up again
+        MainUI.instance.GameplayScreen.ReinitializePlaylist();
+
+        // play SFX
+        SoundManager.instance.PlayConfirmUI();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RpcCleanupServer()
+    {
+        RpcCleanupClient();
+    }
+    [ObserversRpc]
+    private void RpcCleanupClient()
+    {
+        if (IsServerInitialized) return;
+        MainUI.instance.GameplayScreen.PreTransitionOutCleanup();
+        SoundManager.instance.PlayConfirmUI();
     }
 
     public CanvasGroup GetCanvasGroup()

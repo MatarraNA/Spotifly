@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -33,6 +34,7 @@ public static class SpotifyAPI
         // initliazd?
         Initialize();
 
+        
         var listRaw = await _client.Playlists.GetPlaylistRawAsync(playlistId);
         PlaylistRoot playlist = null;
         try

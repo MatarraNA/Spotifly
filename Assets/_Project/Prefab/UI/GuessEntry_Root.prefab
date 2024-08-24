@@ -88,6 +88,8 @@ GameObject:
   - component: {fileID: 8730872313181973721}
   - component: {fileID: 1225110848796906965}
   - component: {fileID: 2736070514106909471}
+  - component: {fileID: 7213817245401902548}
+  - component: {fileID: 8658109571356243839}
   m_Layer: 5
   m_Name: GuessEntry_Root
   m_TagString: Untagged
@@ -165,8 +167,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c320bf24e85cc7848a766d291f21cad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 7213817245401902548}
+  _networkObjectCache: {fileID: 7213817245401902548}
   GuessTM: {fileID: 8613923602721051218}
   GuessIconImg: {fileID: 7021438361621104403}
+  _skipSprite: {fileID: 21300000, guid: 660aeb3a5a9834141a9fdf22fdd08dd0, type: 3}
+  _xCrossSprite: {fileID: 21300000, guid: a55dc2c47dc5bba488a22cdeda5fceab, type: 3}
+  _thumbsUpSprite: {fileID: 21300000, guid: 7ab4c4c099693e84d86609a0a0a62252, type: 3}
+--- !u!114 &7213817245401902548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4282431554747925773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 0
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  _networkBehaviours:
+  - {fileID: 2736070514106909471}
+  <SerializedRootNetworkBehaviour>k__BackingField: {fileID: 0}
+  <NestedRootNetworkBehaviours>k__BackingField: []
+  SerializedTransformProperties:
+    Position: {x: -245, y: 312.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    LocalScale: {x: 1, y: 1, z: 1}
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _defaultDespawnType: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 0
+  <SpawnableCollectionId>k__BackingField: 0
+  <SceneId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 15576726432790761588
+--- !u!225 &8658109571356243839
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4282431554747925773}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5932800104731607860
 GameObject:
   m_ObjectHideFlags: 0

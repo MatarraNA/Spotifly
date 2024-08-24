@@ -1,3 +1,4 @@
+using Steamworks;
 using System;
 using System.Collections;
 using System.Linq;
@@ -17,6 +18,11 @@ public class MainScreen : MonoBehaviour, IScreen
     [SerializeField]
     private TMP_InputField _playlistSearchField;
 
+    [SerializeField]
+    private Button _connectToLobbyBtn;
+    [SerializeField]
+    private TMP_InputField _connectToLobbyField;
+
     // getcomp
     private CanvasGroup _canvasGroup;
 
@@ -25,11 +31,25 @@ public class MainScreen : MonoBehaviour, IScreen
         // CALLBACKS
         _playlistSearchButton.onClick.AddListener(() => StartCoroutine(PlaylistSearchCoro()));
         _playlistSearchField.onSubmit.AddListener((x) => StartCoroutine(PlaylistSearchCoro()));
+
+        _connectToLobbyBtn.onClick.AddListener(() => AttemptConnect());
+        _connectToLobbyField.onSubmit.AddListener((x) => AttemptConnect());
     }
 
     private void Start()
     {
         PopulatePlaylists();
+    }
+
+    private void AttemptConnect()
+    {
+        string val = _connectToLobbyField.text;
+
+        // attempt connect
+        NetworkController.Instance.StartClient(val);
+
+        // after connecting, transition to gameplay UI
+        MainUI.instance.StartCoroutine(MainUI.instance.ScreenTransitionCoro(MainUI.instance.MainScreen, MainUI.instance.GameplayScreen, 0.66f));
     }
 
     /// <summary>
